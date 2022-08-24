@@ -9,9 +9,9 @@
 int main(int argc, char *argv[]) {
   int meusocket;
   int conecta;
-  int port;
   int i = 0;
-  int final = 65535;
+  char *destino;
+  destino = argv[1];
 
   for (i = 0; i < 65535; i++) {
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     meusocket = socket(AF_INET, SOCK_STREAM, 0);
     alvo.sin_family = AF_INET;
     alvo.sin_port = htons(i);
-    alvo.sin_addr.s_addr = inet_addr("192.168.0.1");
+    alvo.sin_addr.s_addr = inet_addr(destino);
 
     conecta = connect(meusocket, (struct sockaddr *)&alvo, sizeof alvo);
 
@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
       close(meusocket);
       close(conecta);
     } else {
-      printf("Porta %d fechada\n", i);
+      close(meusocket);
+      close(conecta);
     }
   }
 }
